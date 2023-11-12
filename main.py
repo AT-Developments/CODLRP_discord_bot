@@ -44,27 +44,42 @@ async def creator(interaction: discord.Interaction):
 
 @client.tree.command(name="help", description="Show all available commands")
 async def help(interaction: discord.Interaction):
-    # Create base embed
+    # Create Base Embed
     embed = (discord.Embed(
-        title=f"{os.environ.get('DISCORD_BOT_NAME')}",
-        description="Show all currently available commands of this bot"
+        title="Help Command",
+        description="Show all currently available commands of this bot",
+        color=discord.Color.blurple()
     ))
 
-    # Set embed fileds
+    # Set Embed Author
+    embed.set_author(
+        name=f"{os.environ.get('DISCORD_BOT_NAME')}",
+        icon_url=f"{os.environ.get('DISCORD_BOT_ICON')}"
+    )
+
+    # Set Embed Thumbnails
+    embed.set_thumbnail(
+        url=f"{os.environ.get('DISCORD_BOT_ICON')}"
+    )
+
+    # Set Embed Fields
     embed.add_field(
         name="help",
-        value="Show all available commands"
+        value="Show all available commands",
+        inline=False
     )
     embed.add_field(
         name="ping",
-        value="Show bot latency"
+        value="Show bot latency",
+        inline=False
     )
     embed.add_field(
         name="creator",
-        value="Show bot creator"
+        value="Show bot creator",
+        inline=False
     )
 
-    # Set embed footer
+    # Set Embed Footer
     embed.set_footer(
         text=f"Last update: 11/12/2023"
     )
