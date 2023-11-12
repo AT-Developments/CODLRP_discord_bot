@@ -21,8 +21,6 @@ async def on_ready():
     except Exception as e:
         print(f"Except: {e}")
 
-# guild_ids = [os.environ.get('DISCORD_GUILD_ID')] # Server ID for CraftOfDLRP
-
 
 @client.tree.command(name="hello", description="Say Hello to the bot")
 async def hello(interaction: discord.Interaction):
