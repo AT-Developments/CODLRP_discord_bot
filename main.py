@@ -37,4 +37,10 @@ async def ping(interaction: discord.Interaction):
                                             ephemeral=True)
 
 
+@client.tree.command(name="creator", description=f"{os.environ.get('DISCORD_BOT_NAME')} creator")
+async def creator(interraction: discord.Interaction):
+    await interraction.response.send_message(f"This bot was made with :heart: by "
+                                             f"{os.environ.get('DISCORD_BOT_CREATOR')}",
+                                             ephemeral=True)
+
 client.run(os.environ.get("DISCORD_BOT_TOKEN"))
