@@ -7,7 +7,7 @@ from discord.ext import commands
 load_dotenv()
 
 client = commands.Bot(
-    command_prefix=os.environ.get("DISCORD_BOT_PREFIX"),
+    command_prefix=os.environ.get('DISCORD_BOT_PREFIX'),
     intents=discord.Intents.all()
 )
 
@@ -21,12 +21,13 @@ async def on_ready():
     except Exception as e:
         print(f"Except: {e}")
 
-# guild_ids = [os.environ.get("DISCORD_GUILD_ID")] # Server ID for CraftOfDLRP
+# guild_ids = [os.environ.get('DISCORD_GUILD_ID')] # Server ID for CraftOfDLRP
 
 
 @client.tree.command(name="hello", description="Say Hello to the bot")
 async def hello(interaction: discord.Interaction):
-    await interaction.response.send_message(f"Hey {interaction.user.mention}! This is a slash command !",
+    await interaction.response.send_message(f"Hey {interaction.user.mention}! "
+                                            f"This is a slash command !",
                                             ephemeral=True)
 
 
