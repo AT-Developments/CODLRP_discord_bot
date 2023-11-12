@@ -30,4 +30,10 @@ async def hello(interaction: discord.Interaction):
                                             ephemeral=True)
 
 
+@client.tree.command(name="ping", description="Show bot latency")
+async def ping(interaction: discord.Interaction):
+    await interaction.response.send_message(f"Pong! {round(client.latency * 1000, 1)} ms",
+                                            ephemeral=True)
+
+
 client.run(os.environ.get("DISCORD_BOT_TOKEN"))
