@@ -46,6 +46,7 @@ async def creator(interaction: discord.Interaction):
 
 @client.tree.command(name="help", description="Show all available commands")
 async def help(interaction: discord.Interaction):
+    guild = client.get_guild(int(os.environ.get("DISCORD_GUILD_ID")))
     # Create Base Embed
     embed = discord.Embed(
         title="Help Command",
@@ -60,12 +61,14 @@ async def help(interaction: discord.Interaction):
     )
 
     # Set Embed Thumbnails
-    embed.set_thumbnail(url=f"{os.environ.get('DISCORD_BOT_ICON')}")
+    embed.set_thumbnail(url=guild.icon.url)
 
     # Set Embed Fields
     embed.add_field(name="help", value="Show all available commands", inline=False)
     embed.add_field(name="ping", value="Show bot latency", inline=False)
     embed.add_field(name="creator", value="Show bot creator", inline=False)
+    embed.add_field(name="discord", value="Show invite link", inline=False)
+    embed.add_field(name="help_admin", value="Show admin commands", inline=False)
 
     # Set Embed Footer
     embed.set_footer(text="Last update: 11/12/2023")
@@ -74,14 +77,13 @@ async def help(interaction: discord.Interaction):
 
 @client.tree.command(name="discord", description="Actual infinite invite link")
 async def discord_invite(interaction: discord.Interaction):
-    # Set guild information
     guild = client.get_guild(int(os.environ.get("DISCORD_GUILD_ID")))
     list_invites = await guild.invites()
 
     # Set base embed
     embed = discord.Embed(
         title=f"Invite link for {guild.name}",
-        description=f"Click [here]({list_invites[0].url}) to join the server!",
+        description=f"{list_invites[0].url}",
         color=discord.Color.green(),
     )
 
@@ -99,6 +101,7 @@ async def discord_invite(interaction: discord.Interaction):
 
 @client.tree.command(name="all_invites", description="All active invite link")
 async def all_discord_invite(interaction: discord.Interaction):
+    guild = client.get_guild(int(os.environ.get("DISCORD_GUILD_ID")))
     # Check if the user is a moderator
     member = interaction.user
     if member.guild_permissions.administrator is None:
@@ -107,8 +110,6 @@ async def all_discord_invite(interaction: discord.Interaction):
         )
         return
 
-    # Set guild information
-    guild = client.get_guild(int(os.environ.get("DISCORD_GUILD_ID")))
     list_invites = await guild.invites()
 
     # Set base embed
@@ -135,7 +136,7 @@ async def all_discord_invite(interaction: discord.Interaction):
         icon_url=interaction.user.avatar.url,
     )
 
-    await interaction.response.send_message(embed=embed, ephemeral=True)
+    await interaction.response.send_message(embed=embed, ephemeral=False)
 
 
 @client.event
@@ -152,8 +153,6 @@ async def on_member_join(member):
             color=0x9B26B9,
             timestamp=datetime.datetime.now(),
         )
-        # you don't need the f before Strings with no variables or statements in it
-
         embed.add_field(
             name="Please check out the Rules Channel!",
             value="Coming soon",
@@ -164,7 +163,6 @@ async def on_member_join(member):
             value="Coming soon",
             inline=False,
         )
-
         c = client.get_channel(int(os.environ.get("DISCORD_GUILD_JOIN_CHANNEL")))
         await c.send(embed=embed)
 
