@@ -203,4 +203,47 @@ async def on_member_join(member):
         await c.send(embeds=both_languages_embed)
 
 
+@client.tree.command(
+    name="minecraft", description="Provide information about our minecraft server"
+)
+async def minecraft(interaction: discord.Interaction):
+    guild = client.get_guild(int(os.environ.get("DISCORD_GUILD_ID")))
+    # Create EN Base Embed
+    embed_en = discord.Embed(
+        title="Minecraft Server",
+        description="Our server is currently under construction"
+        "\nThe opening date will be announced soon",
+        color=discord.Color.blurple(),
+    )
+    # Set Embed Author
+    embed_en.set_author(
+        name=f"{os.environ.get('DISCORD_BOT_NAME')}",
+        icon_url=f"{os.environ.get('DISCORD_BOT_ICON')}",
+    )
+    # Set Embed Thumbnails
+    embed_en.set_thumbnail(url=guild.icon.url)
+    # Set Embed Footer
+    embed_en.set_footer(text="Last update: 11/14/2023")
+
+    # Create FR Base Embed
+    embed_fr = discord.Embed(
+        title="Serveur Minecraft",
+        description="Notre serveur est actuellement en cours de construction"
+        "\nLa date d'ouverture sera annoncée utlérieurement",
+        color=discord.Color.blurple(),
+    )
+    # Set Embed Author
+    embed_fr.set_author(
+        name=f"{os.environ.get('DISCORD_BOT_NAME')}",
+        icon_url=f"{os.environ.get('DISCORD_BOT_ICON')}",
+    )
+    # Set Embed Thumbnails
+    embed_fr.set_thumbnail(url=guild.icon.url)
+    # Set Embed Footer
+    embed_fr.set_footer(text="Last update: 11/14/2023")
+
+    both_language_embeds = [embed_en, embed_fr]
+    await interaction.response.send_message(embeds=both_language_embeds)
+
+
 client.run(os.environ.get("DISCORD_BOT_TOKEN"))
