@@ -17,6 +17,7 @@ client = commands.Bot(
 
 @client.event
 async def on_ready():
+    await client.change_presence(activity=discord.Game(name="/help"))
     print("Bot is Up and Ready!")
     try:
         synced = await client.tree.sync()
