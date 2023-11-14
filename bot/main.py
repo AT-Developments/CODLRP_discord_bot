@@ -142,29 +142,65 @@ async def all_discord_invite(interaction: discord.Interaction):
 @client.event
 async def on_member_join(member):
     if member.guild.name == os.environ.get("DISCORD_GUILD_NAME"):  # Server Name
+        guild = client.get_guild(int(os.environ.get("DISCORD_GUILD_ID")))
         role = discord.utils.get(
             member.guild.roles, id=int(os.environ.get("DISCORD_GUILD_MEMBER_ID"))
         )
         await member.add_roles(role)
-        embed = discord.Embed(
+
+        # Engish Embed
+        embed_en = discord.Embed(
             title="Member Joined",
             description=f"{member.mention}, Welcome to {member.guild.name}. "
-            f"We hope that your time with us is a happy one!",
+            f"\nWe hope that your time with us is a happy one!",
             color=0x9B26B9,
             timestamp=datetime.datetime.now(),
         )
-        embed.add_field(
+        embed_en.add_field(
             name="Please check out the Rules Channel!",
-            value="Coming soon",
-            inline=False,
+            value=client.get_channel(
+                int(os.environ.get("DISCORD_GUILD_RULES_CHANNEL"))
+            ).mention,
+            inline=True,
         )
-        embed.add_field(
+        embed_en.add_field(
             name="Latest announcements are made here!",
-            value="Coming soon",
-            inline=False,
+            value=client.get_channel(
+                int(os.environ.get("DISCORD_GUILD_ANNOUNCEMENT_CHANNEL"))
+            ).mention,
+            inline=True,
         )
+        # Add thumbnail to embed
+        embed_en.set_thumbnail(url=guild.icon.url)
+
+        # French Embed
+        embed_fr = discord.Embed(
+            title="Un nouveau membre viens de nous rejoindre",
+            description=f"{member.mention}, Bienvenue chez {member.guild.name}. "
+            f"\nNous espérons que vous passerez un bon moment avec nous !",
+            color=0x9B26B9,
+            timestamp=datetime.datetime.now(),
+        )
+        embed_fr.add_field(
+            name="Merci de lire les règles du serveur",
+            value=client.get_channel(
+                int(os.environ.get("DISCORD_GUILD_RULES_CHANNEL"))
+            ).mention,
+            inline=True,
+        )
+        embed_fr.add_field(
+            name="Les dernières annonces sont faites ici!",
+            value=client.get_channel(
+                int(os.environ.get("DISCORD_GUILD_ANNOUNCEMENT_CHANNEL"))
+            ).mention,
+            inline=True,
+        )
+        # Add thumbnail to embed
+        embed_fr.set_thumbnail(url=guild.icon.url)
+
+        both_languages_embed = [embed_en, embed_fr]
         c = client.get_channel(int(os.environ.get("DISCORD_GUILD_JOIN_CHANNEL")))
-        await c.send(embed=embed)
+        await c.send(embeds=both_languages_embed)
 
 
 client.run(os.environ.get("DISCORD_BOT_TOKEN"))
