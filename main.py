@@ -57,7 +57,7 @@ async def help(interaction: discord.Interaction):
     # Set Embed Author
     embed.set_author(
         name=f"{os.environ.get('DISCORD_BOT_NAME')}",
-        icon_url=f"{os.environ.get('DISCORD_BOT_ICON')}",
+        icon_url=client.user.avatar.url,
     )
 
     # Set Embed Thumbnails
